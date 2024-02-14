@@ -1,6 +1,5 @@
-import { Grid, Typography } from "@mui/material";
-
 import Cards from "@/app/components/Cards";
+import { Grid, Typography } from "@mui/material";
 
 export default function PokemonList() {
   return (

@@ -1,8 +1,6 @@
-import { useEffect, useState } from "react";
-
-import { Card, CardContent, Typography, Grid, CardMedia } from "@mui/material";
-
 import PokemonService from "@/services/PokemonService";
+import { Card, CardContent, Typography, Grid, CardMedia } from "@mui/material";
+import { useEffect, useState } from "react";
 
 export default function Cards() {
   const [pokemonList, setPokemonList] = useState([]);
@@ -34,7 +32,7 @@ export default function Cards() {
                 <CardMedia
                   component="img"
                   height="auto"
-                  image={item.details.sprites.other["official-artwork"].front_default}
+                  image={item.details.sprites.front_default}
                   alt={item.name}
                 />
                 <CardContent>

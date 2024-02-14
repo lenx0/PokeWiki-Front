@@ -34,7 +34,7 @@ export default function Cards() {
                 <CardMedia
                   component="img"
                   height="auto"
-                  image={item.details.sprites.other["official-artwork"].front_default}
+                  image={pokemon.details.sprites.other["official-artwork"].front_default}
                   alt={item.name}
                 />
                 <CardContent>

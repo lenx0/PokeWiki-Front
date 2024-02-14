@@ -18,7 +18,7 @@ class HttpClient {
       return response.json();
     } catch (error) {
       console.error('Erro ao realizar a requisição:', error);
-      throw error;
+      throw error; // Propaga o erro para que o chamador possa lidar com ele
     }
   }
 
