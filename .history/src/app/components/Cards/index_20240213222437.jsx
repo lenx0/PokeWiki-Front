@@ -39,7 +39,7 @@ export default function Cards() {
           console.log(pokemon);
           return (
             <Grid item xs={12} sm={6} md={4} key={index} padding={15}>
-              <Card sx={{ maxWidth: 345, border: "none", boxShadow: "2px 4px 8px 8px rgba(0,0,0,0.2)" }}>
+              <Card sx={{ maxWidth: 345, border: "none", boxShadow: "6px 4px 8px 8px rgba(0,0,0,0.2)" }}>
                 <CardMedia
                   component="img"
                   height="auto"
