@@ -6,8 +6,8 @@ import {
   Grid,
   CardMedia,
   Box,
+  useMediaQuery,
 } from "@mui/material";
-
 import PokemonService from "@/services/PokemonService";
 import { capitalizeFirstLetter } from "@/services/utils/CapitalizeFirstLetter";
 import PokemonCardSkeleton from "../Skeleton";
@@ -15,6 +15,7 @@ import PokemonCardSkeleton from "../Skeleton";
 export default function Cards() {
   const [pokemonList, setPokemonList] = useState([]);
   const [loading, setLoading] = useState(true);
+  const matches = useMediaQuery("(max-width:1200px)")
 
   useEffect(() => {
     async function getPokemon() {

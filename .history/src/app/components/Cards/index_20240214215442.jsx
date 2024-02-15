@@ -7,7 +7,6 @@ import {
   CardMedia,
   Box,
 } from "@mui/material";
-
 import PokemonService from "@/services/PokemonService";
 import { capitalizeFirstLetter } from "@/services/utils/CapitalizeFirstLetter";
 import PokemonCardSkeleton from "../Skeleton";
@@ -38,15 +37,15 @@ export default function Cards() {
 
   return (
     <>
-      <Grid container spacing={4}>
+      <Grid container justifyContent="center" alignContent="center" justifyItems="center" alignItems="center">
         {loading
-          ? pokemonList.map((index) => (
+          ? pokemonList.map((pokemon, index) => (
               <Grid item xs={12} sm={6} md={4} key={index}>
                 <PokemonCardSkeleton />
               </Grid>
             ))
           : pokemonList.map((pokemon, index) => (
-              <Grid item xs={12} sm={6} md={4} lg={4} xl={2} key={index}>
+              <Grid item xs={12} sm={6} md={12} key={index}>
                 <Card
                   sx={{
                     maxWidth: 245,

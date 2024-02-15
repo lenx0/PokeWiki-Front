@@ -7,10 +7,10 @@ export default function PokemonList() {
     <>
       <Grid
         item
-        backgroundColor="#e93232ee"
+        backgroundColor="#ee3e3eef"
         textAlign="center"
       >
-        <Typography variant="h2" fontSize={45} fontWeight={700} color="#e6e6e6">
+        <Typography variant="h2" fontWeight={700} color="#e6e6e6">
           Catálogo
         </Typography>
       </Grid>

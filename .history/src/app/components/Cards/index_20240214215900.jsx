@@ -7,7 +7,6 @@ import {
   CardMedia,
   Box,
 } from "@mui/material";
-
 import PokemonService from "@/services/PokemonService";
 import { capitalizeFirstLetter } from "@/services/utils/CapitalizeFirstLetter";
 import PokemonCardSkeleton from "../Skeleton";
@@ -40,13 +39,13 @@ export default function Cards() {
     <>
       <Grid container spacing={4}>
         {loading
-          ? pokemonList.map((index) => (
+          ? pokemonList.map((pokemon, index) => (
               <Grid item xs={12} sm={6} md={4} key={index}>
                 <PokemonCardSkeleton />
               </Grid>
             ))
           : pokemonList.map((pokemon, index) => (
-              <Grid item xs={12} sm={6} md={4} lg={4} xl={2} key={index}>
+              <Grid item xs={12} sm={6} md={2} key={index}>
                 <Card
                   sx={{
                     maxWidth: 245,
@@ -69,6 +68,7 @@ export default function Cards() {
                         variant="h5"
                         fontWeight="700"
                         component="div"
+                        sx={{ fontSize: matches ? "1.2rem" : "1.5rem" }}
                       >
                         {capitalizeFirstLetter(pokemon.name)}
                       </Typography>

@@ -6,8 +6,8 @@ import {
   Grid,
   CardMedia,
   Box,
+  useMediaQuery,
 } from "@mui/material";
-
 import PokemonService from "@/services/PokemonService";
 import { capitalizeFirstLetter } from "@/services/utils/CapitalizeFirstLetter";
 import PokemonCardSkeleton from "../Skeleton";
