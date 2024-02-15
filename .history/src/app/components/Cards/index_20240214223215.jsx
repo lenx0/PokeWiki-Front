@@ -1,4 +1,3 @@
-'use client'
 import React, { useEffect, useState } from "react";
 import {
   Card,
@@ -7,6 +6,7 @@ import {
   Grid,
   CardMedia,
   Box,
+  TablePagination,
 } from "@mui/material";
 
 import PokemonService from "@/services/PokemonService";
@@ -35,7 +35,16 @@ export default function Cards() {
       setLoading(false);
     }
     getPokemon();
-  }, []);
+  }, [page, rowsPerPage]);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
 
   return (
     <>
@@ -96,6 +105,15 @@ export default function Cards() {
               </Grid>
             ))}
       </Grid>
+      <TablePagination
+        rowsPerPageOptions={[10, 20, 50]}
+        component="div"
+        count={totalRows}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
     </>
   );
 }

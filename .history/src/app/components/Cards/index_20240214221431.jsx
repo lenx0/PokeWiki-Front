@@ -1,4 +1,3 @@
-'use client'
 import React, { useEffect, useState } from "react";
 import {
   Card,
@@ -12,10 +11,13 @@ import {
 import PokemonService from "@/services/PokemonService";
 import { capitalizeFirstLetter } from "@/services/utils/CapitalizeFirstLetter";
 import PokemonCardSkeleton from "../Skeleton";
+import PaginationComponent from "./PaginationComponent";
 
 export default function Cards() {
   const [pokemonList, setPokemonList] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
     async function getPokemon() {
@@ -33,6 +35,7 @@ export default function Cards() {
       );
       setPokemonList(detailedPokemonList);
       setLoading(false);
+      setTotalPages(Math.ceil(pokemonListResponse.count / 20));
     }
     getPokemon();
   }, []);

@@ -1,4 +1,3 @@
-'use client'
 import React, { useEffect, useState } from "react";
 import {
   Card,
@@ -7,6 +6,7 @@ import {
   Grid,
   CardMedia,
   Box,
+  TablePagination,
 } from "@mui/material";
 
 import PokemonService from "@/services/PokemonService";
@@ -96,6 +96,15 @@ export default function Cards() {
               </Grid>
             ))}
       </Grid>
+      <TablePagination
+        rowsPerPageOptions={[10, 20, 50]}
+        component="div"
+        count={totalRows}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
     </>
   );
 }

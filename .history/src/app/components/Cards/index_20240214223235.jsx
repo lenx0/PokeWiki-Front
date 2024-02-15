@@ -1,4 +1,3 @@
-'use client'
 import React, { useEffect, useState } from "react";
 import {
   Card,
@@ -7,6 +6,7 @@ import {
   Grid,
   CardMedia,
   Box,
+  TablePagination,
 } from "@mui/material";
 
 import PokemonService from "@/services/PokemonService";
@@ -16,10 +16,13 @@ import PokemonCardSkeleton from "../Skeleton";
 export default function Cards() {
   const [pokemonList, setPokemonList] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(20);
+  const [totalRows, setTotalRows] = useState(0);
 
   useEffect(() => {
     async function getPokemon() {
-      const pokemonListResponse = await PokemonService.getPokemon();
+      const pokemonListResponse = await PokemonService.getPokemon(page + 1, rowsPerPage);
       const pokemonUrls = pokemonListResponse.results.map(
         (pokemon) => pokemon.url
       );
@@ -35,7 +38,16 @@ export default function Cards() {
       setLoading(false);
     }
     getPokemon();
-  }, []);
+  }, [page, rowsPerPage]);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
 
   return (
     <>
@@ -96,6 +108,15 @@ export default function Cards() {
               </Grid>
             ))}
       </Grid>
+      <TablePagination
+        rowsPerPageOptions={[10, 20, 50]}
+        component="div"
+        count={totalRows}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
     </>
   );
 }
