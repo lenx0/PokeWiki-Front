@@ -1,12 +1,12 @@
-import { Box, Button, MenuItem, Select, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
+import { useState } from "react";
 
 const Pagination = ({
-  page,
-  totalPages,
-  itemsPerPage,
-  setPage,
-  setItemsPerPage,
+  
 }) => {
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+  const [itemsPerPage, setItemsPerPage] = useState(12);
 
   const nextPage = () => {
     setPage(page + 1);

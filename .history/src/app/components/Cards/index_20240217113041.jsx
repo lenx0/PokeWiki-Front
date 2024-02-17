@@ -6,7 +6,10 @@ import {
   Typography,
   Grid,
   CardMedia,
-  Box
+  Box,
+  Button,
+  Select,
+  MenuItem,
 } from "@mui/material";
 
 import PokemonService from "@/services/PokemonService";

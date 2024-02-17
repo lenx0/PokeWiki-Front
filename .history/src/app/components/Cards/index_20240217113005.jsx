@@ -6,13 +6,15 @@ import {
   Typography,
   Grid,
   CardMedia,
-  Box
+  Box,
+  Button,
+  Select,
+  MenuItem,
 } from "@mui/material";
 
 import PokemonService from "@/services/PokemonService";
 import { capitalizeFirstLetter } from "@/services/utils/CapitalizeFirstLetter";
 import PokemonCardSkeleton from "../Skeleton";
-import Pagination from "../Pagination";
 
 export default function Cards() {
   const [pokemonList, setPokemonList] = useState([]);

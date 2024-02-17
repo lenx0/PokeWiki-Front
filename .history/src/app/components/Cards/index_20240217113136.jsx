@@ -14,7 +14,8 @@ import { capitalizeFirstLetter } from "@/services/utils/CapitalizeFirstLetter";
 import PokemonCardSkeleton from "../Skeleton";
 import Pagination from "../Pagination";
 
-export default function Cards() {
+export default function Cards({ page, totalPages, itemsPerPage, setPage,
+  setItemsPerPage }) {
   const [pokemonList, setPokemonList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
