@@ -48,38 +48,36 @@ export default function Cards() {
   };
 
   const clearFilters = () => {
-    getPokemon();
-  };
-
-  useEffect(() => {
-    console.log(pokemonList);
-    if (pokemonList.length <= 0) {
-      getPokemon();
-    }
-  }, [page, itemsPerPage, pokemonList]);
-
-  async function getPokemon() {
-    setLoading(true);
-    const limit = itemsPerPage;
-    const offset = (page - 1) * itemsPerPage;
-    const pokemonListResponse = await PokemonService.getPokemon(limit, offset);
-    const totalPokemon = pokemonListResponse.count;
-    setTotalPages(Math.ceil(totalPokemon / itemsPerPage));
-
-    const pokemonUrls = pokemonListResponse.results.map(
-      (pokemon) => pokemon.url
-    );
-    const detailedPokemonList = await Promise.all(
-      pokemonUrls.map(async (url) => {
-        const pokemonDetailsResponse = await PokemonService.getPokemonDetails(
-          url
-        );
-        return pokemonDetailsResponse;
-      })
-    );
-    setPokemonList(detailedPokemonList);
-    setLoading(false);
+    getPokemon()
   }
+
+    async function getPokemon() {
+      setLoading(true);
+
+      const limit = itemsPerPage;
+      const offset = (page - 1) * itemsPerPage;
+      const pokemonListResponse = await PokemonService.getPokemon(
+        limit,
+        offset
+      );
+      const totalPokemon = pokemonListResponse.count;
+      setTotalPages(Math.ceil(totalPokemon / itemsPerPage));
+
+      const pokemonUrls = pokemonListResponse.results.map(
+        (pokemon) => pokemon.url
+      );
+      const detailedPokemonList = await Promise.all(
+        pokemonUrls.map(async (url) => {
+          const pokemonDetailsResponse = await PokemonService.getPokemonDetails(
+            url
+          );
+          return pokemonDetailsResponse;
+        })
+      );
+      setPokemonList(detailedPokemonList);
+      setLoading(false);
+    }
+    getPokemon();
 
   return (
     <>
@@ -90,7 +88,7 @@ export default function Cards() {
           </IconButton>
         </Grid>
       </Grid>
-      <Grid container>
+      <Grid container xl={12} lg={12}>
         {(loading || pokemonList.length === 0) &&
           Array.from({ length: itemsPerPage }).map((_, index) => (
             <Grid item xl={12} lg={12} xs={12} sm={6} md={4} key={index}>
@@ -182,28 +180,25 @@ export default function Cards() {
             displayEmpty
             style={{ marginBottom: 20 }}
           >
-            <MenuItem value="">Tipo</MenuItem>
+            <MenuItem value="">Todos</MenuItem>
             <MenuItem value="fire">Fire</MenuItem>
             <MenuItem value="water">Water</MenuItem>
             <MenuItem value="grass">Grass</MenuItem>
             <MenuItem value="ghost">Ghost</MenuItem>
           </Select>
-          <Grid container gap={1}>
-            <Button
-              variant="contained"
-              onClick={() => applyFilters(filterName)}
-              fullWidth
-            >
-              Aplicar Filtros
-            </Button>
-            <Button
-              variant="contained"
-              onClick={() => clearFilters()}
-              fullWidth
-            >
-              Limpar
-            </Button>
-          </Grid>
+          <Button
+            variant="contained"
+            onClick={() => applyFilters(filterName)}
+            fullWidth
+          >
+            Aplicar Filtros
+          </Button>
+          <Button
+            variant="contained"
+            onClick={() => clearFilters()}
+          >
+            Limpar
+          </Button>
         </Box>
       </Drawer>
     </>

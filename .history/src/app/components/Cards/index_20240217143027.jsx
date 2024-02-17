@@ -52,7 +52,7 @@ export default function Cards() {
   };
 
   useEffect(() => {
-    console.log(pokemonList);
+    console.log(pokemonList)
     if (pokemonList.length <= 0) {
       getPokemon();
     }
@@ -182,28 +182,22 @@ export default function Cards() {
             displayEmpty
             style={{ marginBottom: 20 }}
           >
-            <MenuItem value="">Tipo</MenuItem>
+            <MenuItem value="">Todos</MenuItem>
             <MenuItem value="fire">Fire</MenuItem>
             <MenuItem value="water">Water</MenuItem>
             <MenuItem value="grass">Grass</MenuItem>
             <MenuItem value="ghost">Ghost</MenuItem>
           </Select>
-          <Grid container gap={1}>
-            <Button
-              variant="contained"
-              onClick={() => applyFilters(filterName)}
-              fullWidth
-            >
-              Aplicar Filtros
-            </Button>
-            <Button
-              variant="contained"
-              onClick={() => clearFilters()}
-              fullWidth
-            >
-              Limpar
-            </Button>
-          </Grid>
+          <Button
+            variant="contained"
+            onClick={() => applyFilters(filterName)}
+            fullWidth
+          >
+            Aplicar Filtros
+          </Button>
+          <Button variant="contained" onClick={() => clearFilters()} fullWidth>
+            Limpar
+          </Button>
         </Box>
       </Drawer>
     </>

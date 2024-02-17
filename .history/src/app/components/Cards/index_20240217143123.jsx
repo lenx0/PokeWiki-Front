@@ -182,13 +182,13 @@ export default function Cards() {
             displayEmpty
             style={{ marginBottom: 20 }}
           >
-            <MenuItem value="">Tipo</MenuItem>
+            <MenuItem value="">Todos</MenuItem>
             <MenuItem value="fire">Fire</MenuItem>
             <MenuItem value="water">Water</MenuItem>
             <MenuItem value="grass">Grass</MenuItem>
             <MenuItem value="ghost">Ghost</MenuItem>
           </Select>
-          <Grid container gap={1}>
+          <Grid container gap={2}>
             <Button
               variant="contained"
               onClick={() => applyFilters(filterName)}

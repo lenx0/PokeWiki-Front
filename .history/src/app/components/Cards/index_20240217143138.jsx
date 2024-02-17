@@ -182,7 +182,7 @@ export default function Cards() {
             displayEmpty
             style={{ marginBottom: 20 }}
           >
-            <MenuItem value="">Tipo</MenuItem>
+            <MenuItem value="">Todos</MenuItem>
             <MenuItem value="fire">Fire</MenuItem>
             <MenuItem value="water">Water</MenuItem>
             <MenuItem value="grass">Grass</MenuItem>

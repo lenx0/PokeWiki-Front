@@ -52,14 +52,14 @@ export default function Cards() {
   };
 
   useEffect(() => {
-    console.log(pokemonList);
-    if (pokemonList.length <= 0) {
+    if (!pokemonList) {
       getPokemon();
     }
-  }, [page, itemsPerPage, pokemonList]);
+  }, [page, itemsPerPage]);
 
   async function getPokemon() {
     setLoading(true);
+
     const limit = itemsPerPage;
     const offset = (page - 1) * itemsPerPage;
     const pokemonListResponse = await PokemonService.getPokemon(limit, offset);
@@ -90,7 +90,7 @@ export default function Cards() {
           </IconButton>
         </Grid>
       </Grid>
-      <Grid container>
+      <Grid container xl={12} lg={12}>
         {(loading || pokemonList.length === 0) &&
           Array.from({ length: itemsPerPage }).map((_, index) => (
             <Grid item xl={12} lg={12} xs={12} sm={6} md={4} key={index}>
@@ -182,28 +182,22 @@ export default function Cards() {
             displayEmpty
             style={{ marginBottom: 20 }}
           >
-            <MenuItem value="">Tipo</MenuItem>
+            <MenuItem value="">Todos</MenuItem>
             <MenuItem value="fire">Fire</MenuItem>
             <MenuItem value="water">Water</MenuItem>
             <MenuItem value="grass">Grass</MenuItem>
             <MenuItem value="ghost">Ghost</MenuItem>
           </Select>
-          <Grid container gap={1}>
-            <Button
-              variant="contained"
-              onClick={() => applyFilters(filterName)}
-              fullWidth
-            >
-              Aplicar Filtros
-            </Button>
-            <Button
-              variant="contained"
-              onClick={() => clearFilters()}
-              fullWidth
-            >
-              Limpar
-            </Button>
-          </Grid>
+          <Button
+            variant="contained"
+            onClick={() => applyFilters(filterName)}
+            fullWidth
+          >
+            Aplicar Filtros
+          </Button>
+          <Button variant="contained" onClick={() => clearFilters()}>
+            Limpar
+          </Button>
         </Box>
       </Drawer>
     </>
