@@ -49,8 +49,19 @@ export default function Cards() {
       }
       if (filterType) {
         // Chamar a função para filtrar por tipo do serviço PokemonService
-        const result = await PokemonService.getPokemonByTypeDetails(filterType);
-        filteredPokemonList = result;
+        const result = await PokemonService.getPokemonByType(filterType);
+        // Verificar se a lista filtrada contém apenas nomes de Pokémon ou URLs
+        if (result.every(item => typeof item === 'string')) {
+          // Se conter apenas nomes de Pokémon, obter os detalhes completos desses Pokémon
+          const pokemonDetails = await Promise.all(result.map(name => PokemonService.getPokemonByName(name)));
+          // Adicionar os detalhes completos à lista filtrada
+          filteredPokemonList = pokemonDetails;
+        } else {
+          // Se conter URLs, obter os detalhes completos dos Pokémon correspondentes às URLs
+          const pokemonDetails = await Promise.all(result.map(url => PokemonService.getPokemonByUrl(url)));
+          // Adicionar os detalhes completos à lista filtrada
+          filteredPokemonList = pokemonDetails;
+        }
       }
       setPokemonList(filteredPokemonList);
     } catch (error) {

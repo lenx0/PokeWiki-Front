@@ -38,28 +38,14 @@ export default function Cards() {
     setDrawerOpen(!drawerOpen);
   };
 
-  const applyFilters = async () => {
-    setLoading(true);
-    try {
-      let filteredPokemonList = [];
-      if (filterName.trim() !== "") {
-        // Chamar a função para filtrar por nome do serviço PokemonService
-        const result = await PokemonService.getPokemonByName(filterName);
-        filteredPokemonList = result;
-      }
-      if (filterType) {
-        // Chamar a função para filtrar por tipo do serviço PokemonService
-        const result = await PokemonService.getPokemonByTypeDetails(filterType);
-        filteredPokemonList = result;
-      }
-      setPokemonList(filteredPokemonList);
-    } catch (error) {
-      console.error("Erro ao aplicar filtros:", error);
-    } finally {
-      setLoading(false);
+  const applyFilters = async (filterName) => {
+    let filteredPokemonList = [];
+    if (filterName && filterName.trim() !== "") {
+      const result = await PokemonService.getPokemonByName(filterName);
+      filteredPokemonList = result;
     }
+    setPokemonList([filteredPokemonList]);
   };
-  
 
   const clearFilters = () => {
     getPokemon();
@@ -205,7 +191,7 @@ export default function Cards() {
           <Grid container gap={1}>
             <Button
               variant="contained"
-              onClick={() => applyFilters(filterName, filterType)}
+              onClick={() => applyFilters(filterName)}
               fullWidth
             >
               Aplicar Filtros
