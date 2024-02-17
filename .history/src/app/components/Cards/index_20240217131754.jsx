@@ -9,13 +9,7 @@ import {
   Box,
   Button,
   Drawer,
-  MenuItem,
-  Select,
-  TextField,
-  IconButton,
 } from "@mui/material";
-
-import FilterListRoundedIcon from "@mui/icons-material/FilterListRounded";
 
 import PokemonService from "@/services/PokemonService";
 import { capitalizeFirstLetter } from "@/services/utils/CapitalizeFirstLetter";
@@ -31,20 +25,8 @@ export default function Cards() {
 
   const [drawerOpen, setDrawerOpen] = useState(false);
 
-  const [filterName, setFilterName] = useState("");
-  const [filterType, setFilterType] = useState("");
-
   const toggleDrawer = () => {
     setDrawerOpen(!drawerOpen);
-  };
-
-  const applyFilters = async (filterName) => {
-    let filteredPokemonList = [];
-    if (filterName && filterName.trim() !== "") {
-      const result = await PokemonService.getPokemonByName(filterName);
-      filteredPokemonList = result;
-    }
-    setPokemonList([filteredPokemonList]);
   };
 
   useEffect(() => {
@@ -79,11 +61,9 @@ export default function Cards() {
 
   return (
     <>
-      <Grid container py={2} pr={4} justifyContent="right">
+      <Grid container py={4} justifyContent="center">
         <Grid item>
-          <IconButton variant="contained" onClick={toggleDrawer}>
-            <FilterListRoundedIcon />
-          </IconButton>
+          <Button variant="contained" onClick={toggleDrawer}>Filtro</Button>
         </Grid>
       </Grid>
       <Grid container xl={12} lg={12}>
@@ -157,42 +137,7 @@ export default function Cards() {
           />
         </Grid>
       </Grid>
-      <Drawer anchor="right" open={drawerOpen} onClose={toggleDrawer}>
-        <Box p={2} width={300}>
-          <Typography variant="h6" gutterBottom>
-            Filtros
-          </Typography>
-          <TextField
-            label="Nome"
-            variant="outlined"
-            fullWidth
-            value={filterName}
-            onChange={(e) => setFilterName(e.target.value)}
-            style={{ marginBottom: 10 }}
-          />
-          <Select
-            value={filterType}
-            onChange={(e) => setFilterType(e.target.value)}
-            variant="outlined"
-            fullWidth
-            displayEmpty
-            style={{ marginBottom: 20 }}
-          >
-            <MenuItem value="">Todos</MenuItem>
-            <MenuItem value="fire">Fire</MenuItem>
-            <MenuItem value="water">Water</MenuItem>
-            <MenuItem value="grass">Grass</MenuItem>
-            <MenuItem value="ghost">Ghost</MenuItem>
-          </Select>
-          <Button
-            variant="contained"
-            onClick={() => applyFilters(filterName)}
-            fullWidth
-          >
-            Aplicar Filtros
-          </Button>
-        </Box>
-      </Drawer>
+      <Drawer anchor="right" open={drawerOpen} onClose={toggleDrawer}></Drawer>
     </>
   );
 }

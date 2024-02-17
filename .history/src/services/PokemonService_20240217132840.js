@@ -12,10 +12,8 @@ class PokemonService {
     return response;
   }
 
-  async getPokemonByName(filterName) {
-    const url = `${process.env.NEXT_PUBLIC_API_BASE}/${filterName}`;
-    const response = await HttpClient.getData(url);
-    return response;
+  async getPokemonByName(name) {
+    
   }
 }
 

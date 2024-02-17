@@ -8,14 +8,7 @@ import {
   CardMedia,
   Box,
   Button,
-  Drawer,
-  MenuItem,
-  Select,
-  TextField,
-  IconButton,
 } from "@mui/material";
-
-import FilterListRoundedIcon from "@mui/icons-material/FilterListRounded";
 
 import PokemonService from "@/services/PokemonService";
 import { capitalizeFirstLetter } from "@/services/utils/CapitalizeFirstLetter";
@@ -28,24 +21,6 @@ export default function Cards() {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [itemsPerPage, setItemsPerPage] = useState(12);
-
-  const [drawerOpen, setDrawerOpen] = useState(false);
-
-  const [filterName, setFilterName] = useState("");
-  const [filterType, setFilterType] = useState("");
-
-  const toggleDrawer = () => {
-    setDrawerOpen(!drawerOpen);
-  };
-
-  const applyFilters = async (filterName) => {
-    let filteredPokemonList = [];
-    if (filterName && filterName.trim() !== "") {
-      const result = await PokemonService.getPokemonByName(filterName);
-      filteredPokemonList = result;
-    }
-    setPokemonList([filteredPokemonList]);
-  };
 
   useEffect(() => {
     async function getPokemon() {
@@ -79,11 +54,9 @@ export default function Cards() {
 
   return (
     <>
-      <Grid container py={2} pr={4} justifyContent="right">
+      <Grid container py={4} justifyContent="center">
         <Grid item>
-          <IconButton variant="contained" onClick={toggleDrawer}>
-            <FilterListRoundedIcon />
-          </IconButton>
+          <Button variant="contained">Filtro</Button>
         </Grid>
       </Grid>
       <Grid container xl={12} lg={12}>
@@ -109,7 +82,7 @@ export default function Cards() {
               <Grid item>
                 <Card
                   sx={{
-                    maxWidth: 245,
+                    maxWidth: 145,
                     border: "none",
                     boxShadow: "2px 4px 8px 8px rgba(0,0,0,0.2)",
                   }}
@@ -147,52 +120,18 @@ export default function Cards() {
               </Grid>
             </Grid>
           ))}
-        <Grid item lg={12} xs={12}>
-          <Pagination
-            page={page}
-            totalPages={totalPages}
-            setPage={setPage}
-            itemsPerPage={itemsPerPage}
-            setItemsPerPage={setItemsPerPage}
-          />
+        <Grid container py={4} justifyContent="center">
+          <Grid>
+            <Pagination
+              page={page}
+              totalPages={totalPages}
+              setPage={setPage}
+              itemsPerPage={itemsPerPage}
+              setItemsPerPage={setItemsPerPage}
+            />
+          </Grid>
         </Grid>
       </Grid>
-      <Drawer anchor="right" open={drawerOpen} onClose={toggleDrawer}>
-        <Box p={2} width={300}>
-          <Typography variant="h6" gutterBottom>
-            Filtros
-          </Typography>
-          <TextField
-            label="Nome"
-            variant="outlined"
-            fullWidth
-            value={filterName}
-            onChange={(e) => setFilterName(e.target.value)}
-            style={{ marginBottom: 10 }}
-          />
-          <Select
-            value={filterType}
-            onChange={(e) => setFilterType(e.target.value)}
-            variant="outlined"
-            fullWidth
-            displayEmpty
-            style={{ marginBottom: 20 }}
-          >
-            <MenuItem value="">Todos</MenuItem>
-            <MenuItem value="fire">Fire</MenuItem>
-            <MenuItem value="water">Water</MenuItem>
-            <MenuItem value="grass">Grass</MenuItem>
-            <MenuItem value="ghost">Ghost</MenuItem>
-          </Select>
-          <Button
-            variant="contained"
-            onClick={() => applyFilters(filterName)}
-            fullWidth
-          >
-            Aplicar Filtros
-          </Button>
-        </Box>
-      </Drawer>
     </>
   );
 }

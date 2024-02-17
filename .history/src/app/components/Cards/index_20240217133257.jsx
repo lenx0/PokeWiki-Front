@@ -15,7 +15,7 @@ import {
   IconButton,
 } from "@mui/material";
 
-import FilterListRoundedIcon from "@mui/icons-material/FilterListRounded";
+import FilterListRoundedIcon from '@mui/icons-material/FilterListRounded';
 
 import PokemonService from "@/services/PokemonService";
 import { capitalizeFirstLetter } from "@/services/utils/CapitalizeFirstLetter";
@@ -39,12 +39,10 @@ export default function Cards() {
   };
 
   const applyFilters = async (filterName) => {
-    let filteredPokemonList = [];
-    if (filterName && filterName.trim() !== "") {
-      const result = await PokemonService.getPokemonByName(filterName);
-      filteredPokemonList = result;
-    }
-    setPokemonList([filteredPokemonList]);
+      const result = await PokemonService.getPokemonByName(filterName)
+      return result
+    console.log("Nome do filtro:", filterName);
+    console.log("Tipo do filtro:", filterType);
   };
 
   useEffect(() => {
@@ -79,11 +77,9 @@ export default function Cards() {
 
   return (
     <>
-      <Grid container py={2} pr={4} justifyContent="right">
+      <Grid container py={2} pr={4}justifyContent="right">
         <Grid item>
-          <IconButton variant="contained" onClick={toggleDrawer}>
-            <FilterListRoundedIcon />
-          </IconButton>
+          <IconButton variant="contained" onClick={toggleDrawer}><FilterListRoundedIcon/></IconButton>
         </Grid>
       </Grid>
       <Grid container xl={12} lg={12}>
@@ -158,7 +154,7 @@ export default function Cards() {
         </Grid>
       </Grid>
       <Drawer anchor="right" open={drawerOpen} onClose={toggleDrawer}>
-        <Box p={2} width={300}>
+      <Box p={2} width={300}>
           <Typography variant="h6" gutterBottom>
             Filtros
           </Typography>
@@ -184,11 +180,7 @@ export default function Cards() {
             <MenuItem value="grass">Grass</MenuItem>
             <MenuItem value="ghost">Ghost</MenuItem>
           </Select>
-          <Button
-            variant="contained"
-            onClick={() => applyFilters(filterName)}
-            fullWidth
-          >
+          <Button variant="contained" onClick={applyFilters} fullWidth>
             Aplicar Filtros
           </Button>
         </Box>

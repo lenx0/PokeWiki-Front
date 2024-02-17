@@ -33,18 +33,18 @@ export default function Cards() {
 
   const [filterName, setFilterName] = useState("");
   const [filterType, setFilterType] = useState("");
+  const [filteredPokemonList, setFilteredPokemonList] = useState([])
 
   const toggleDrawer = () => {
     setDrawerOpen(!drawerOpen);
   };
 
   const applyFilters = async (filterName) => {
-    let filteredPokemonList = [];
-    if (filterName && filterName.trim() !== "") {
+    if (filterName.trim() !== "") {
       const result = await PokemonService.getPokemonByName(filterName);
-      filteredPokemonList = result;
+      filteredPokemonList = result
     }
-    setPokemonList([filteredPokemonList]);
+    setPokemonList(result)
   };
 
   useEffect(() => {
@@ -184,11 +184,7 @@ export default function Cards() {
             <MenuItem value="grass">Grass</MenuItem>
             <MenuItem value="ghost">Ghost</MenuItem>
           </Select>
-          <Button
-            variant="contained"
-            onClick={() => applyFilters(filterName)}
-            fullWidth
-          >
+          <Button variant="contained" onClick={() => applyFilters()} fullWidth>
             Aplicar Filtros
           </Button>
         </Box>

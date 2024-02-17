@@ -39,12 +39,9 @@ export default function Cards() {
   };
 
   const applyFilters = async (filterName) => {
-    let filteredPokemonList = [];
-    if (filterName && filterName.trim() !== "") {
-      const result = await PokemonService.getPokemonByName(filterName);
-      filteredPokemonList = result;
-    }
-    setPokemonList([filteredPokemonList]);
+    console.log("nome?", filterName)
+    const result = await PokemonService.getPokemonByName(filterName);
+    return result;
   };
 
   useEffect(() => {
@@ -172,7 +169,7 @@ export default function Cards() {
           />
           <Select
             value={filterType}
-            onChange={(e) => setFilterType(e.target.value)}
+            onChange={(e) => setFilterType(console.log(e))}
             variant="outlined"
             fullWidth
             displayEmpty
@@ -184,11 +181,7 @@ export default function Cards() {
             <MenuItem value="grass">Grass</MenuItem>
             <MenuItem value="ghost">Ghost</MenuItem>
           </Select>
-          <Button
-            variant="contained"
-            onClick={() => applyFilters(filterName)}
-            fullWidth
-          >
+          <Button variant="contained" onClick={() => applyFilters()} fullWidth>
             Aplicar Filtros
           </Button>
         </Box>
