@@ -5,17 +5,20 @@ import Cards from "@/app/components/Cards";
 export default function PokemonList() {
   return (
     <>
+    <Grid container>
       <Grid
-        container
-        height={80}
+        item
         backgroundColor="#272626eb"
+        textAlign="center"
         justifyContent="center"
-        alignContent="center"
         width="100vw"
+        height={80}
+        
       >
         <Typography variant="h2" fontSize={35} fontWeight={700} color="#ffffff">
           Catálogo
         </Typography>
+      </Grid>
       </Grid>
       <Grid item>
         <Cards />

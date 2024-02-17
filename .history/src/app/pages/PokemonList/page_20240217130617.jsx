@@ -9,7 +9,9 @@ export default function PokemonList() {
         container
         height={80}
         backgroundColor="#272626eb"
+        textAlign="center"
         justifyContent="center"
+        
         alignContent="center"
         width="100vw"
       >

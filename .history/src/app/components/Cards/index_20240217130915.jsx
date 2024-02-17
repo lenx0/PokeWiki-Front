@@ -77,7 +77,6 @@ export default function Cards() {
               xl={2}
               key={index}
               justifyContent="center"
-              py={2}
             >
               <Grid item>
                 <Card

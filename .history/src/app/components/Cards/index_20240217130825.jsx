@@ -59,7 +59,11 @@ export default function Cards() {
           <Button variant="contained">Filtro</Button>
         </Grid>
       </Grid>
-      <Grid container xl={12} lg={12}>
+      <Grid
+        container
+        xl={12}
+        lg={12}
+      >
         {(loading || pokemonList.length === 0) &&
           Array.from({ length: itemsPerPage }).map((_, index) => (
             <Grid item xl={12} lg={12} xs={12} sm={6} md={4} key={index}>
@@ -77,7 +81,7 @@ export default function Cards() {
               xl={2}
               key={index}
               justifyContent="center"
-              py={2}
+              py={2}     
             >
               <Grid item>
                 <Card

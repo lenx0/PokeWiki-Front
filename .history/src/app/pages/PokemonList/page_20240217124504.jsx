@@ -4,22 +4,24 @@ import Cards from "@/app/components/Cards";
 
 export default function PokemonList() {
   return (
-    <>
+    <Grid container >
       <Grid
-        container
-        height={80}
-        backgroundColor="#272626eb"
-        justifyContent="center"
-        alignContent="center"
-        width="100vw"
+        item
+        backgroundColor="#e93232ee"
+        textAlign="center"
+        xs={12}
+        sm={6}
+        md={4}
+        lg={3}
+        xl={2}
       >
-        <Typography variant="h2" fontSize={35} fontWeight={700} color="#ffffff">
+        <Typography variant="h2" fontSize={45} fontWeight={700} color="#e6e6e6">
           Catálogo
         </Typography>
       </Grid>
       <Grid item>
         <Cards />
       </Grid>
-    </>
+    </Grid>
   );
 }

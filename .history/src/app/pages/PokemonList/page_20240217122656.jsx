@@ -6,18 +6,15 @@ export default function PokemonList() {
   return (
     <>
       <Grid
-        container
-        height={80}
-        backgroundColor="#272626eb"
-        justifyContent="center"
-        alignContent="center"
-        width="100vw"
+        item
+        backgroundColor="#e93232ee"
+        textAlign="center"
       >
-        <Typography variant="h2" fontSize={35} fontWeight={700} color="#ffffff">
+        <Typography variant="h2" fontSize={45} fontWeight={700} color="#e6e6e6">
           Catálogo
         </Typography>
       </Grid>
-      <Grid item>
+      <Grid padding={5}>
         <Cards />
       </Grid>
     </>

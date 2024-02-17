@@ -54,12 +54,12 @@ export default function Cards() {
 
   return (
     <>
-      <Grid container py={4} justifyContent="center">
+      <Grid container py={2} justifyContent="center" backgroundColor="grey" >
         <Grid item>
           <Button variant="contained">Filtro</Button>
         </Grid>
       </Grid>
-      <Grid container xl={12} lg={12}>
+      <Grid container xl={12} lg={12} backgroundColor="brown" justifyContent="center" spacing={4}>
         {(loading || pokemonList.length === 0) &&
           Array.from({ length: itemsPerPage }).map((_, index) => (
             <Grid item xl={12} lg={12} xs={12} sm={6} md={4} key={index}>
@@ -68,56 +68,44 @@ export default function Cards() {
           ))}
         {!loading &&
           pokemonList.map((pokemon, index) => (
-            <Grid
-              container
-              xs={12}
-              sm={6}
-              md={4}
-              lg={3}
-              xl={2}
-              key={index}
-              justifyContent="center"
-              py={2}
-            >
-              <Grid item>
-                <Card
-                  sx={{
-                    maxWidth: 245,
-                    border: "none",
-                    boxShadow: "2px 4px 8px 8px rgba(0,0,0,0.2)",
-                  }}
-                >
-                  <CardMedia
-                    component="img"
-                    height="auto"
-                    image={
-                      pokemon.sprites.other["official-artwork"].front_default
-                    }
-                    alt={pokemon.name}
-                  />
-                  <CardContent>
-                    <Box textAlign="center">
-                      <Typography
-                        gutterBottom
-                        variant="h5"
-                        fontWeight="700"
-                        component="div"
-                      >
-                        {capitalizeFirstLetter(pokemon.name)}
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        Número: {pokemon.order}
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        Altura: {pokemon.height}
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        Peso: {pokemon.weight}
-                      </Typography>
-                    </Box>
-                  </CardContent>
-                </Card>
-              </Grid>
+            <Grid item xs={12} sm={6} md={4} lg={4} xl={2} key={index}>
+              <Card
+                sx={{
+                  maxWidth: 245,
+                  border: "none",
+                  boxShadow: "2px 4px 8px 8px rgba(0,0,0,0.2)",
+                }}
+              >
+                <CardMedia
+                  component="img"
+                  height="auto"
+                  image={
+                    pokemon.sprites.other["official-artwork"].front_default
+                  }
+                  alt={pokemon.name}
+                />
+                <CardContent>
+                  <Box textAlign="center">
+                    <Typography
+                      gutterBottom
+                      variant="h5"
+                      fontWeight="700"
+                      component="div"
+                    >
+                      {capitalizeFirstLetter(pokemon.name)}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Número: {pokemon.order}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Altura: {pokemon.height}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Peso: {pokemon.weight}
+                    </Typography>
+                  </Box>
+                </CardContent>
+              </Card>
             </Grid>
           ))}
         <Grid item lg={12} xs={12}>

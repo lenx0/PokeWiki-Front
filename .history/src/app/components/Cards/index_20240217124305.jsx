@@ -54,12 +54,16 @@ export default function Cards() {
 
   return (
     <>
-      <Grid container py={4} justifyContent="center">
+      <Grid container py={2} justifyContent="center">
         <Grid item>
           <Button variant="contained">Filtro</Button>
         </Grid>
       </Grid>
-      <Grid container xl={12} lg={12}>
+      <Grid
+        container
+        xl={12}
+        lg={12}
+      >
         {(loading || pokemonList.length === 0) &&
           Array.from({ length: itemsPerPage }).map((_, index) => (
             <Grid item xl={12} lg={12} xs={12} sm={6} md={4} key={index}>
@@ -73,11 +77,12 @@ export default function Cards() {
               xs={12}
               sm={6}
               md={4}
-              lg={3}
+              lg={2}
               xl={2}
               key={index}
               justifyContent="center"
               py={2}
+              
             >
               <Grid item>
                 <Card
