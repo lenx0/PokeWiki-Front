@@ -179,7 +179,7 @@ export default function Cards() {
               </Card>
             </Grid>
           ))}
-        <Grid item lg={12} xs={12}>
+        <Grid item lg={12} xs={6}>
           <Pagination
             page={page}
             totalPages={totalPages}

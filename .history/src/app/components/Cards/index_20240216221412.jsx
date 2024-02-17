@@ -6,108 +6,26 @@ import {
   Grid,
   CardMedia,
   Box,
-  Button,
-  Select,
-  MenuItem,
 } from "@mui/material";
 
 import PokemonService from "@/services/PokemonService";
 import { capitalizeFirstLetter } from "@/services/utils/CapitalizeFirstLetter";
 import PokemonCardSkeleton from "../Skeleton";
 
-const Pagination = ({
-  page,
-  totalPages,
-  setPage,
-  itemsPerPage,
-  setItemsPerPage,
-}) => {
-  const nextPage = () => {
-    setPage(page + 1);
-  };
-
-  const prevPage = () => {
-    setPage(page - 1);
-  };
-
-  const goToFirstPage = () => {
-    setPage(1);
-  };
-
-  const goToLastPage = () => {
-    setPage(totalPages);
-  };
-
-  const handleChangeItemsPerPage = (event) => {
-    const newItemsPerPage = parseInt(event.target.value);
-    setItemsPerPage(newItemsPerPage);
-    setPage(1);
-  };
-
-  return (
-    <Box
-      mt={4}
-      gap={1}
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-    >
-      <Button variant="contained" onClick={goToFirstPage} disabled={page === 1}>
-        Primeira
-      </Button>
-      <Button variant="contained" onClick={prevPage} disabled={page === 1}>
-        Anterior
-      </Button>
-      <Typography variant="body1">
-        Página {page} de {totalPages}
-      </Typography>
-      <Button
-        variant="contained"
-        onClick={nextPage}
-        disabled={page === totalPages}
-      >
-        Próxima
-      </Button>
-      <Button
-        variant="contained"
-        onClick={goToLastPage}
-        disabled={page === totalPages}
-      >
-        Última
-      </Button>
-      <Select
-        value={itemsPerPage}
-        onChange={handleChangeItemsPerPage}
-        label="Itens por página"
-        variant="outlined"
-        style={{ marginLeft: 10 }}
-      >
-        <MenuItem value={6}>6</MenuItem>
-        <MenuItem value={12}>12</MenuItem>
-        <MenuItem value={24}>24</MenuItem>
-        <MenuItem value={48}>48</MenuItem>
-      </Select>
-    </Box>
-  );
-};
-
 export default function Cards() {
   const [pokemonList, setPokemonList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
-  const [itemsPerPage, setItemsPerPage] = useState(12);
+  const itemsPerPage = 12;
 
   useEffect(() => {
     async function getPokemon() {
-      setLoading(true);
+      setLoading(true); // Ativar o estado de carregamento
 
       const limit = itemsPerPage;
       const offset = (page - 1) * itemsPerPage;
-      const pokemonListResponse = await PokemonService.getPokemon(
-        limit,
-        offset
-      );
+      const pokemonListResponse = await PokemonService.getPokemon(limit, offset);
       const totalPokemon = pokemonListResponse.count;
       setTotalPages(Math.ceil(totalPokemon / itemsPerPage));
 
@@ -123,15 +41,23 @@ export default function Cards() {
         })
       );
       setPokemonList(detailedPokemonList);
-      setLoading(false);
+      setLoading(false); // Desativar o estado de carregamento
     }
     getPokemon();
-  }, [page, itemsPerPage]);
+  }, [page]);
+
+  const nextPage = () => {
+    setPage(page + 1);
+  };
+
+  const prevPage = () => {
+    setPage(page - 1);
+  };
 
   return (
     <>
       <Grid container spacing={4}>
-        {(loading || pokemonList.length === 0) &&
+        {(loading || pokemonList.length === 0) && // Mostrar o esqueleto se estiver carregando ou se a lista de pokemons estiver vazia
           Array.from({ length: itemsPerPage }).map((_, index) => (
             <Grid item xs={12} sm={6} md={4} key={index}>
               <PokemonCardSkeleton />
@@ -179,16 +105,15 @@ export default function Cards() {
               </Card>
             </Grid>
           ))}
-        <Grid item lg={12} xs={12}>
-          <Pagination
-            page={page}
-            totalPages={totalPages}
-            setPage={setPage}
-            itemsPerPage={itemsPerPage}
-            setItemsPerPage={setItemsPerPage}
-          />
-        </Grid>
       </Grid>
+      <Box mt={4} display="flex" justifyContent="center">
+        <button onClick={prevPage} disabled={page === 1}>
+          Anterior
+        </button>
+        <button onClick={nextPage} disabled={page === totalPages}>
+          Próxima
+        </button>
+      </Box>
     </>
   );
 }

@@ -1,3 +1,4 @@
+// No arquivo PokemonService.js
 import HttpClient from "./utils/HttpClient";
 
 class PokemonService {

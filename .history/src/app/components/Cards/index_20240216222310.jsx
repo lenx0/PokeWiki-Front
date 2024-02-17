@@ -15,13 +15,7 @@ import PokemonService from "@/services/PokemonService";
 import { capitalizeFirstLetter } from "@/services/utils/CapitalizeFirstLetter";
 import PokemonCardSkeleton from "../Skeleton";
 
-const Pagination = ({
-  page,
-  totalPages,
-  setPage,
-  itemsPerPage,
-  setItemsPerPage,
-}) => {
+const Pagination = ({ page, totalPages, setPage, itemsPerPage, setItemsPerPage }) => {
   const nextPage = () => {
     setPage(page + 1);
   };
@@ -41,17 +35,11 @@ const Pagination = ({
   const handleChangeItemsPerPage = (event) => {
     const newItemsPerPage = parseInt(event.target.value);
     setItemsPerPage(newItemsPerPage);
-    setPage(1);
+    setPage(1); // Resetar para a primeira página ao alterar o número de itens por página
   };
 
   return (
-    <Box
-      mt={4}
-      gap={1}
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-    >
+    <Box mt={4} gap={1} display="flex" justifyContent="center" alignItems="center">
       <Button variant="contained" onClick={goToFirstPage} disabled={page === 1}>
         Primeira
       </Button>
@@ -61,18 +49,10 @@ const Pagination = ({
       <Typography variant="body1">
         Página {page} de {totalPages}
       </Typography>
-      <Button
-        variant="contained"
-        onClick={nextPage}
-        disabled={page === totalPages}
-      >
+      <Button variant="contained" onClick={nextPage} disabled={page === totalPages}>
         Próxima
       </Button>
-      <Button
-        variant="contained"
-        onClick={goToLastPage}
-        disabled={page === totalPages}
-      >
+      <Button variant="contained" onClick={goToLastPage} disabled={page === totalPages}>
         Última
       </Button>
       <Select
@@ -104,10 +84,7 @@ export default function Cards() {
 
       const limit = itemsPerPage;
       const offset = (page - 1) * itemsPerPage;
-      const pokemonListResponse = await PokemonService.getPokemon(
-        limit,
-        offset
-      );
+      const pokemonListResponse = await PokemonService.getPokemon(limit, offset);
       const totalPokemon = pokemonListResponse.count;
       setTotalPages(Math.ceil(totalPokemon / itemsPerPage));
 
@@ -179,16 +156,18 @@ export default function Cards() {
               </Card>
             </Grid>
           ))}
-        <Grid item lg={12} xs={12}>
+          <Grid item lg={12}>
           <Pagination
-            page={page}
-            totalPages={totalPages}
-            setPage={setPage}
-            itemsPerPage={itemsPerPage}
-            setItemsPerPage={setItemsPerPage}
-          />
-        </Grid>
+        page={page}
+        totalPages={totalPages}
+        setPage={setPage}
+        itemsPerPage={itemsPerPage}
+        setItemsPerPage={setItemsPerPage}
+      />   
+          </Grid>
+          
       </Grid>
+      
     </>
   );
 }
