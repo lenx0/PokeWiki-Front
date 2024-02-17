@@ -43,13 +43,25 @@ export default function Cards() {
     try {
       let filteredPokemonList = [];
       if (filterName.trim() !== "") {
+        // Chamar a função para filtrar por nome do serviço PokemonService
         const result = await PokemonService.getPokemonByName(filterName);
-        filteredPokemonList = [result];
-      }
-      if (filterType) {
-        const result = await PokemonService.getPokemonByTypeDetails(filterType);
         filteredPokemonList = result;
       }
+  
+      if (filterType) {
+        // Se já houver uma lista filtrada por nome, aplicar o filtro por tipo nessa lista
+        if (filteredPokemonList.length > 0) {
+          // Filtrar a lista por tipo
+          const result = await PokemonService.getPokemon(1000, 0, filterType);
+          const filteredByType = result.results.filter(pokemon => filteredPokemonList.includes(pokemon.name));
+          filteredPokemonList = filteredByType;
+        } else {
+          // Caso contrário, chamar a função getPokemon com os parâmetros adequados para filtrar por tipo
+          const result = await PokemonService.getPokemon(1000, 0, filterType);
+          filteredPokemonList = result.results;
+        }
+      }
+      
       setPokemonList(filteredPokemonList);
     } catch (error) {
       console.error("Erro ao aplicar filtros:", error);
@@ -57,6 +69,29 @@ export default function Cards() {
       setLoading(false);
     }
   };
+  
+  // const applyFilters = async () => {
+  //   setLoading(true);
+  //   try {
+  //     let filteredPokemonList = [];
+  //     if (filterName.trim() !== "") {
+  //       // Chamar a função para filtrar por nome do serviço PokemonService
+  //       const result = await PokemonService.getPokemonByName(filterName);
+  //       filteredPokemonList = result;
+  //     }
+  //     if (filterType) {
+  //       // Chamar a função para filtrar por tipo do serviço PokemonService
+  //       const result = await PokemonService.getPokemonByTypeDetails(filterType);
+  //       filteredPokemonList = result;
+  //     }
+  //     setPokemonList(filteredPokemonList);
+  //   } catch (error) {
+  //     console.error("Erro ao aplicar filtros:", error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+  
 
   const clearFilters = () => {
     getPokemon();
@@ -202,7 +237,7 @@ export default function Cards() {
           <Grid container gap={1}>
             <Button
               variant="contained"
-              onClick={() => applyFilters(filterName)}
+              onClick={() => applyFilters(filterName, filterType)}
               fullWidth
             >
               Aplicar Filtros

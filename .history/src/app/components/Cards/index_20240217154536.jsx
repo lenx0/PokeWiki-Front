@@ -43,10 +43,12 @@ export default function Cards() {
     try {
       let filteredPokemonList = [];
       if (filterName.trim() !== "") {
+        // Chamar a função para filtrar por nome do serviço PokemonService
         const result = await PokemonService.getPokemonByName(filterName);
-        filteredPokemonList = [result];
+        filteredPokemonList = result;
       }
       if (filterType) {
+        // Chamar a função para filtrar por tipo do serviço PokemonService
         const result = await PokemonService.getPokemonByTypeDetails(filterType);
         filteredPokemonList = result;
       }

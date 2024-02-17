@@ -42,14 +42,17 @@ export default function Cards() {
     setLoading(true);
     try {
       let filteredPokemonList = [];
+  
       if (filterName.trim() !== "") {
+        // Chamar a função para filtrar por nome do serviço PokemonService
         const result = await PokemonService.getPokemonByName(filterName);
-        filteredPokemonList = [result];
-      }
-      if (filterType) {
-        const result = await PokemonService.getPokemonByTypeDetails(filterType);
         filteredPokemonList = result;
+      } else if (filterType) {
+        // Chamar a função getPokemon com os parâmetros adequados para filtrar por tipo
+        const result = await PokemonService.getPokemon(1000, 0, filterType);
+        filteredPokemonList = result.results;
       }
+  
       setPokemonList(filteredPokemonList);
     } catch (error) {
       console.error("Erro ao aplicar filtros:", error);
@@ -57,6 +60,34 @@ export default function Cards() {
       setLoading(false);
     }
   };
+  
+  const isFilterDisabled = () => {
+    // Desabilitar o filtro por tipo se o filtro por nome estiver preenchido
+    return filterName.trim() !== "";
+  };
+  
+  // const applyFilters = async () => {
+  //   setLoading(true);
+  //   try {
+  //     let filteredPokemonList = [];
+  //     if (filterName.trim() !== "") {
+  //       // Chamar a função para filtrar por nome do serviço PokemonService
+  //       const result = await PokemonService.getPokemonByName(filterName);
+  //       filteredPokemonList = result;
+  //     }
+  //     if (filterType) {
+  //       // Chamar a função para filtrar por tipo do serviço PokemonService
+  //       const result = await PokemonService.getPokemonByTypeDetails(filterType);
+  //       filteredPokemonList = result;
+  //     }
+  //     setPokemonList(filteredPokemonList);
+  //   } catch (error) {
+  //     console.error("Erro ao aplicar filtros:", error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+  
 
   const clearFilters = () => {
     getPokemon();
@@ -202,7 +233,7 @@ export default function Cards() {
           <Grid container gap={1}>
             <Button
               variant="contained"
-              onClick={() => applyFilters(filterName)}
+              onClick={() => applyFilters(filterName, filterType)}
               fullWidth
             >
               Aplicar Filtros

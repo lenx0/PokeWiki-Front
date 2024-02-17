@@ -44,7 +44,7 @@ export default function Cards() {
       let filteredPokemonList = [];
       if (filterName.trim() !== "") {
         const result = await PokemonService.getPokemonByName(filterName);
-        filteredPokemonList = [result];
+        filteredPokemonList = result;
       }
       if (filterType) {
         const result = await PokemonService.getPokemonByTypeDetails(filterType);
