@@ -11,9 +11,9 @@ import PokemonService from "@/services/PokemonService";
 import PokemonCardSkeleton from "../Skeleton";
 import Pagination from "../Pagination";
 import Filter from "../Filter";
-import PokemonCard from "../PokemonCard";
+import CardList from "../CardList";
 
-export default function Cards() {
+export default function PokemonList() {
   const [pokemonList, setPokemonList] = useState([]);
   const [pokemonTypes, setPokemonTypes] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -172,7 +172,7 @@ export default function Cards() {
               justifyContent="center"
               py={2}
             >
-              <PokemonCard pokemon={pokemon} />
+              <CardList pokemon={pokemon} />
             </Grid>
           ))}
         <Grid item lg={12} xs={12}>

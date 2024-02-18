@@ -2,7 +2,8 @@ import React from "react";
 import { Card, CardContent, Typography, CardMedia, Box } from "@mui/material";
 import { capitalizeFirstLetter } from "@/services/utils/CapitalizeFirstLetter";
 
-const PokemonCard = ({ pokemon }) => {
+const CardList = ({ pokemon }) => {
+  console.log(pokemon)
   return (
     <Card
       sx={{
@@ -42,4 +43,4 @@ const PokemonCard = ({ pokemon }) => {
   );
 };
 
-export default PokemonCard;
+export default CardList;

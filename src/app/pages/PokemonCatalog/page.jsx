@@ -1,6 +1,6 @@
 import { Box, Grid, Typography } from "@mui/material";
 
-import Cards from "@/app/components/Cards";
+import PokemonList from "@/app/components/PokemonList";
 
 export default function PokemonCatalog() {
   return (
@@ -18,7 +18,7 @@ export default function PokemonCatalog() {
         </Typography>
       </Grid>
       <Grid item>
-        <Cards />
+        <PokemonList />
       </Grid>
     </>
   );
