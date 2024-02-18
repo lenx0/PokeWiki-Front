@@ -7,13 +7,7 @@ import {
   Grid,
   CardMedia,
   Box,
-  Button,
-  Drawer,
-  MenuItem,
-  Select,
-  TextField,
   IconButton,
-  InputLabel,
 } from "@mui/material";
 
 import FilterListRoundedIcon from "@mui/icons-material/FilterListRounded";
@@ -22,20 +16,16 @@ import PokemonService from "@/services/PokemonService";
 import { capitalizeFirstLetter } from "@/services/utils/CapitalizeFirstLetter";
 import PokemonCardSkeleton from "../Skeleton";
 import Pagination from "../Pagination";
+import Filter from "../Filter";
 
 export default function Cards() {
   const [pokemonList, setPokemonList] = useState([]);
   const [pokemonTypes, setPokemonTypes] = useState([]);
-
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [itemsPerPage, setItemsPerPage] = useState(12);
-
-  const [cache, setCache] = useState({});
-
   const [drawerOpen, setDrawerOpen] = useState(false);
-
   const [filterName, setFilterName] = useState("");
   const [filterType, setFilterType] = useState("");
 
@@ -145,6 +135,18 @@ export default function Cards() {
     }
   }
 
+  const filterProps = {
+    filterName,
+    setFilterName,
+    filterType,
+    setFilterType,
+    pokemonTypes,
+    applyFilters,
+    clearFilters,
+    drawerOpen,
+    toggleDrawer,
+  };
+
   return (
     <>
       <Grid container py={2} pr={4} justifyContent="right">
@@ -154,6 +156,7 @@ export default function Cards() {
           </IconButton>
         </Grid>
       </Grid>
+      <Filter {...filterProps} />
       <Grid container>
         {(loading || pokemonList.length === 0) &&
           Array.from({ length: 12 }).map((_, index) => (
@@ -225,51 +228,6 @@ export default function Cards() {
           />
         </Grid>
       </Grid>
-      <Drawer anchor="right" open={drawerOpen} onClose={toggleDrawer}>
-        <Box p={2} width={300}>
-          <Typography variant="h6" gutterBottom>
-            Filtros
-          </Typography>
-          <TextField
-            label="Nome"
-            variant="outlined"
-            fullWidth
-            value={filterName}
-            onChange={(e) => setFilterName(e.target.value)}
-            style={{ marginBottom: 10 }}
-          />
-          <InputLabel htmlFor="filter-type" shrink={false}>
-            Selecione um tipo
-          </InputLabel>
-          <Select
-            value={filterType}
-            onChange={(e) => setFilterType(e.target.value)}
-            variant="outlined"
-            fullWidth
-            displayEmpty
-            style={{ marginBottom: 20 }}
-          >
-            {pokemonTypes.map((type) => (
-              <MenuItem key={type} value={type}>
-                {type}
-              </MenuItem>
-            ))}
-          </Select>
-          <Grid container gap={1}>
-            <Button
-              variant="contained"
-              onClick={() => applyFilters(filterName)}
-              fullWidth
-              disabled={!filterType && !filterName.trim()}
-            >
-              Aplicar Filtros
-            </Button>
-            <Button variant="contained" onClick={clearFilters} fullWidth>
-              Limpar
-            </Button>
-          </Grid>
-        </Box>
-      </Drawer>
     </>
   );
 }
