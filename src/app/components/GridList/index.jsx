@@ -2,7 +2,7 @@ import { Box } from "@mui/material";
 import { DataGrid, ptBR } from "@mui/x-data-grid";
 import Image from "next/image";
 import Pagination from "../Pagination";
-import { capitalizeFirstLetter, capitalizePokemonNames } from "@/services/utils/CapitalizeFirstLetter";
+import { capitalizePokemonNames } from "@/services/utils/CapitalizeFirstLetter";
 
 const GridList = ({
   pokemonList,

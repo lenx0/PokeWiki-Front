@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Grid, IconButton } from "@mui/material";
+import { Button, Grid, IconButton } from "@mui/material";
 
 import FilterListRoundedIcon from "@mui/icons-material/FilterListRounded";
 import TableRowsIcon from "@mui/icons-material/TableRows";
@@ -12,6 +12,7 @@ import Pagination from "../Pagination";
 import Filter from "../Filter";
 import CardList from "../CardList";
 import GridList from "../GridList";
+import Image from "next/image";
 
 export default function PokemonList() {
   const [pokemonList, setPokemonList] = useState([]);
@@ -164,6 +165,38 @@ export default function PokemonList() {
           <IconButton variant="contained" onClick={changeViewModeToGrid}>
             <TableRowsIcon />
           </IconButton>
+          <Button
+            variant="contained"
+            style={{
+              borderRadius: "50%",
+              width: 60,
+              height: 60,
+              marginRight: "10px",
+            }}
+          >
+            <Image
+              src={
+                pokemonList[0]?.sprites.other["official-artwork"].front_default
+              }
+              width={40}
+              height={40}
+            />
+          </Button>
+          <Button
+            variant="contained"
+            style={{
+              borderRadius: "50%",
+              width: 60,
+              height: 60,
+              padding: 0,
+            }}
+          >
+            <Image
+              src={pokemonList[0]?.sprites.other["showdown"].front_default}
+              width={40}
+              height={40}
+            />
+          </Button>
         </Grid>
         <Grid item xl={6} textAlign="right">
           <IconButton variant="contained" onClick={toggleDrawer}>
