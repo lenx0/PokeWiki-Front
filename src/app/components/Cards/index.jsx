@@ -48,7 +48,10 @@ export default function Cards() {
       }
       if (filterType) {
         const result = await PokemonService.getPokemonByTypeDetails(filterType);
-        filteredPokemonList = result;
+        const startIndex = (page - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        filteredPokemonList = result.slice(startIndex, endIndex);
+        setTotalPages(Math.ceil(result.length / itemsPerPage));
       }
       setPokemonList(filteredPokemonList);
     } catch (error) {
@@ -59,37 +62,67 @@ export default function Cards() {
   };
 
   const clearFilters = () => {
+    setFilterName("");
+    setFilterType("");
+    setPage(1);
+    setItemsPerPage(12);
+    setTotalPages(pokemonList.count);
     getPokemon();
   };
 
   useEffect(() => {
-    console.log(pokemonList);
-    if (pokemonList.length <= 0) {
+    getPokemon();
+  }, [page, itemsPerPage]);
+
+  useEffect(() => {
+    if (pokemonList.length === 0) {
       getPokemon();
     }
-  }, [page, itemsPerPage, pokemonList]);
+  }, []);
 
   async function getPokemon() {
     setLoading(true);
-    const limit = itemsPerPage;
-    const offset = (page - 1) * itemsPerPage;
-    const pokemonListResponse = await PokemonService.getPokemon(limit, offset);
-    const totalPokemon = pokemonListResponse.count;
-    setTotalPages(Math.ceil(totalPokemon / itemsPerPage));
+    let pokemonListResponse;
+    let totalPokemon;
+    let detailedPokemonList;
 
-    const pokemonUrls = pokemonListResponse.results.map(
-      (pokemon) => pokemon.url
-    );
-    const detailedPokemonList = await Promise.all(
-      pokemonUrls.map(async (url) => {
-        const pokemonDetailsResponse = await PokemonService.getPokemonDetails(
-          url
+    try {
+      const limit = itemsPerPage;
+      const offset = (page - 1) * itemsPerPage;
+
+      if (filterType) {
+        pokemonListResponse = await PokemonService.getPokemonByTypeDetails(
+          filterType
         );
-        return pokemonDetailsResponse;
-      })
-    );
-    setPokemonList(detailedPokemonList);
-    setLoading(false);
+        totalPokemon = pokemonListResponse.length;
+        setTotalPages(Math.ceil(totalPokemon / itemsPerPage));
+
+        const startIndex = offset;
+        const endIndex = Math.min(offset + itemsPerPage, totalPokemon);
+        detailedPokemonList = pokemonListResponse.slice(startIndex, endIndex);
+      } else {
+        pokemonListResponse = await PokemonService.getPokemon(limit, offset);
+        totalPokemon = pokemonListResponse.count;
+        setTotalPages(Math.ceil(totalPokemon / itemsPerPage));
+
+        const pokemonUrls = pokemonListResponse.results.map(
+          (pokemon) => pokemon.url
+        );
+        detailedPokemonList = await Promise.all(
+          pokemonUrls.map(async (url) => {
+            const pokemonDetailsResponse =
+              await PokemonService.getPokemonDetails(url);
+            return pokemonDetailsResponse;
+          })
+        );
+      }
+
+      setPokemonList(detailedPokemonList);
+    } catch (error) {
+      console.error("Erro ao obter Pokémon:", error);
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -207,11 +240,7 @@ export default function Cards() {
             >
               Aplicar Filtros
             </Button>
-            <Button
-              variant="contained"
-              onClick={() => clearFilters()}
-              fullWidth
-            >
+            <Button variant="contained" onClick={clearFilters} fullWidth>
               Limpar
             </Button>
           </Grid>

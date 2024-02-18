@@ -32,7 +32,7 @@ class PokemonService {
   
       return detailedPokemonList;
     } catch (error) {
-      console.error('Erro ao obter os detalhes dos pokémons por tipo:', error);
+      console.error('Erro ao obter os detalhes dos pokémon por tipo:', error);
       throw error;
     }
   }
