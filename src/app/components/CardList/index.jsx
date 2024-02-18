@@ -2,7 +2,7 @@ import React from "react";
 import { Card, CardContent, Typography, CardMedia, Box } from "@mui/material";
 import { capitalizeFirstLetter } from "@/services/utils/CapitalizeFirstLetter";
 
-const CardList = ({ pokemon }) => {
+const CardList = ({ pokemon, animationMode }) => {
   console.log(pokemon)
   return (
     <Card
@@ -15,7 +15,7 @@ const CardList = ({ pokemon }) => {
       <CardMedia
         component="img"
         height="auto"
-        image={pokemon.sprites.other["official-artwork"].front_default}
+        image={pokemon.sprites.other[animationMode ? "showdown" : "official-artwork"].front_default}
         alt={pokemon.name}
       />
       <CardContent>

@@ -26,7 +26,7 @@ export default function PokemonList() {
   const [filterType, setFilterType] = useState("");
   const [changeToGrid, setChangeToGrid] = useState(false);
   const [changeToCard, setChangeToCard] = useState(true);
-
+  const [animationMode, setAnimationMode] = useState(false)
   const toggleDrawer = () => {
     setDrawerOpen(!drawerOpen);
   };
@@ -40,6 +40,14 @@ export default function PokemonList() {
     setChangeToGrid(false);
     setChangeToCard(true);
   };
+
+  const animationOn = () => {
+    setAnimationMode(true)
+  }
+
+  const animationOff = () => {
+    setAnimationMode(false)
+  }
 
   const applyFilters = async () => {
     setLoading(true);
@@ -167,6 +175,7 @@ export default function PokemonList() {
           </IconButton>
           <Button
             variant="contained"
+            onClick={animationOff}
             style={{
               borderRadius: "50%",
               width: 60,
@@ -184,6 +193,7 @@ export default function PokemonList() {
           </Button>
           <Button
             variant="contained"
+            onClick={animationOn}
             style={{
               borderRadius: "50%",
               width: 60,
@@ -222,6 +232,7 @@ export default function PokemonList() {
               totalPages={totalPages}
               onPageChange={setPage}
               onPageSizeChange={setItemsPerPage}
+              animationMode={animationMode}
             />
           </Grid>
         )}
@@ -239,7 +250,7 @@ export default function PokemonList() {
               justifyContent="center"
               py={2}
             >
-              <CardList pokemon={pokemon} />
+              <CardList pokemon={pokemon} animationMode={animationMode}/>
             </Grid>
           ))}
         {changeToCard && (

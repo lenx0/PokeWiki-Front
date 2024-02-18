@@ -12,6 +12,7 @@ const GridList = ({
   totalPages,
   onPageChange,
   onPageSizeChange,
+  animationMode
 }) => {
   const columns = [
     {
@@ -27,7 +28,7 @@ const GridList = ({
       width: 150,
       renderCell: (params) => (
         <Image
-          src={params.row.sprites.other["official-artwork"].front_default}
+          src={params.row.sprites.other[animationMode ? "showdown" : "official-artwork"].front_default}
           width={70}
           height={70}
         />
