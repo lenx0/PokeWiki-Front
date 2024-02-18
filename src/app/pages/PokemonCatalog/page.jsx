@@ -2,7 +2,7 @@ import { Box, Grid, Typography } from "@mui/material";
 
 import Cards from "@/app/components/Cards";
 
-export default function PokemonList() {
+export default function PokemonCatalog() {
   return (
     <>
       <Grid
