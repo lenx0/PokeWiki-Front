@@ -1,17 +1,17 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import {
-  Grid,
-  IconButton,
-} from "@mui/material";
+import { Grid, IconButton } from "@mui/material";
 
 import FilterListRoundedIcon from "@mui/icons-material/FilterListRounded";
+import TableRowsIcon from "@mui/icons-material/TableRows";
+import GridViewIcon from "@mui/icons-material/GridView";
 
 import PokemonService from "@/services/PokemonService";
 import PokemonCardSkeleton from "../Skeleton";
 import Pagination from "../Pagination";
 import Filter from "../Filter";
 import CardList from "../CardList";
+import GridList from "../GridList";
 
 export default function PokemonList() {
   const [pokemonList, setPokemonList] = useState([]);
@@ -23,9 +23,21 @@ export default function PokemonList() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [filterName, setFilterName] = useState("");
   const [filterType, setFilterType] = useState("");
+  const [changeToGrid, setChangeToGrid] = useState(false);
+  const [changeToCard, setChangeToCard] = useState(true);
 
   const toggleDrawer = () => {
     setDrawerOpen(!drawerOpen);
+  };
+
+  const changeViewModeToGrid = () => {
+    setChangeToGrid(true);
+    setChangeToCard(false);
+  };
+
+  const changeViewModeToCard = () => {
+    setChangeToGrid(false);
+    setChangeToCard(true);
   };
 
   const applyFilters = async () => {
@@ -144,8 +156,16 @@ export default function PokemonList() {
 
   return (
     <>
-      <Grid container py={2} pr={4} justifyContent="right">
-        <Grid item>
+      <Grid container py={2} pr={4} pl={4} justifyContent="space-between">
+        <Grid item xl={6} textAlign="left">
+          <IconButton variant="contained" onClick={changeViewModeToCard}>
+            <GridViewIcon />
+          </IconButton>
+          <IconButton variant="contained" onClick={changeViewModeToGrid}>
+            <TableRowsIcon />
+          </IconButton>
+        </Grid>
+        <Grid item xl={6} textAlign="right">
           <IconButton variant="contained" onClick={toggleDrawer}>
             <FilterListRoundedIcon />
           </IconButton>
@@ -159,7 +179,21 @@ export default function PokemonList() {
               <PokemonCardSkeleton />
             </Grid>
           ))}
+        {!loading && changeToGrid && (
+          <Grid item xs={12}>
+            <GridList
+              pokemonList={pokemonList}
+              loading={loading}
+              page={page}
+              itemsPerPage={itemsPerPage}
+              totalPages={totalPages}
+              onPageChange={setPage}
+              onPageSizeChange={setItemsPerPage}
+            />
+          </Grid>
+        )}
         {!loading &&
+          changeToCard &&
           pokemonList.map((pokemon, index) => (
             <Grid
               container
@@ -175,15 +209,17 @@ export default function PokemonList() {
               <CardList pokemon={pokemon} />
             </Grid>
           ))}
-        <Grid item lg={12} xs={12}>
-          <Pagination
-            page={page}
-            totalPages={totalPages}
-            setPage={setPage}
-            itemsPerPage={itemsPerPage}
-            setItemsPerPage={setItemsPerPage}
-          />
-        </Grid>
+        {changeToCard && (
+          <Grid item lg={12} xs={12}>
+            <Pagination
+              page={page}
+              totalPages={totalPages}
+              setPage={setPage}
+              itemsPerPage={itemsPerPage}
+              setItemsPerPage={setItemsPerPage}
+            />
+          </Grid>
+        )}
       </Grid>
     </>
   );
