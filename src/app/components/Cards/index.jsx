@@ -13,6 +13,7 @@ import {
   Select,
   TextField,
   IconButton,
+  InputLabel,
 } from "@mui/material";
 
 import FilterListRoundedIcon from "@mui/icons-material/FilterListRounded";
@@ -24,10 +25,14 @@ import Pagination from "../Pagination";
 
 export default function Cards() {
   const [pokemonList, setPokemonList] = useState([]);
+  const [pokemonTypes, setPokemonTypes] = useState([]);
+
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [itemsPerPage, setItemsPerPage] = useState(12);
+
+  const [cache, setCache] = useState({});
 
   const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -45,6 +50,8 @@ export default function Cards() {
       if (filterName.trim() !== "") {
         const result = await PokemonService.getPokemonByName(filterName);
         filteredPokemonList = [result];
+        setTotalPages(1);
+        setPage(1);
       }
       if (filterType) {
         const result = await PokemonService.getPokemonByTypeDetails(filterType);
@@ -67,7 +74,7 @@ export default function Cards() {
     setPage(1);
     setItemsPerPage(12);
     setTotalPages(pokemonList.count);
-    getPokemon();
+    setPokemonList([]);
   };
 
   useEffect(() => {
@@ -78,6 +85,19 @@ export default function Cards() {
     if (pokemonList.length === 0) {
       getPokemon();
     }
+  }, [pokemonList]);
+
+  useEffect(() => {
+    async function fetchTypes() {
+      try {
+        const response = await PokemonService.getPokemonAllTypes();
+        const types = response.results.map((type) => type.name);
+        setPokemonTypes(types);
+      } catch (error) {
+        console.error("Error fetching Pokemon types:", error);
+      }
+    }
+    fetchTypes();
   }, []);
 
   async function getPokemon() {
@@ -136,8 +156,8 @@ export default function Cards() {
       </Grid>
       <Grid container>
         {(loading || pokemonList.length === 0) &&
-          Array.from({ length: itemsPerPage }).map((_, index) => (
-            <Grid item xl={12} lg={12} xs={12} sm={6} md={4} key={index}>
+          Array.from({ length: 12 }).map((_, index) => (
+            <Grid item xs={12} sm={6} md={4} lg={3} xl={2} py={2} key={index}>
               <PokemonCardSkeleton />
             </Grid>
           ))}
@@ -218,6 +238,9 @@ export default function Cards() {
             onChange={(e) => setFilterName(e.target.value)}
             style={{ marginBottom: 10 }}
           />
+          <InputLabel htmlFor="filter-type" shrink={false}>
+            Selecione um tipo
+          </InputLabel>
           <Select
             value={filterType}
             onChange={(e) => setFilterType(e.target.value)}
@@ -226,17 +249,18 @@ export default function Cards() {
             displayEmpty
             style={{ marginBottom: 20 }}
           >
-            <MenuItem value="">Tipo</MenuItem>
-            <MenuItem value="fire">Fire</MenuItem>
-            <MenuItem value="water">Water</MenuItem>
-            <MenuItem value="grass">Grass</MenuItem>
-            <MenuItem value="ghost">Ghost</MenuItem>
+            {pokemonTypes.map((type) => (
+              <MenuItem key={type} value={type}>
+                {type}
+              </MenuItem>
+            ))}
           </Select>
           <Grid container gap={1}>
             <Button
               variant="contained"
               onClick={() => applyFilters(filterName)}
               fullWidth
+              disabled={!filterType && !filterName.trim()}
             >
               Aplicar Filtros
             </Button>
