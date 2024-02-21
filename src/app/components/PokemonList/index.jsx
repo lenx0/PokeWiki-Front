@@ -26,7 +26,12 @@ export default function PokemonList() {
   const [filterType, setFilterType] = useState("");
   const [changeToGrid, setChangeToGrid] = useState(false);
   const [changeToCard, setChangeToCard] = useState(true);
-  const [animationMode, setAnimationMode] = useState(false)
+  const [animationMode, setAnimationMode] = useState(false);
+  const [imageError, setImageError] = useState(false);
+
+  const defaultImageUrl =
+    "https://th.bing.com/th/id/OIG4.T4sk0RpKKWpw2XSkbO_C?w=1024&h=1024&rs=1&pid=ImgDetMain";
+
   const toggleDrawer = () => {
     setDrawerOpen(!drawerOpen);
   };
@@ -42,12 +47,12 @@ export default function PokemonList() {
   };
 
   const animationOn = () => {
-    setAnimationMode(true)
-  }
+    setAnimationMode(true);
+  };
 
   const animationOff = () => {
-    setAnimationMode(false)
-  }
+    setAnimationMode(false);
+  };
 
   const applyFilters = async () => {
     setLoading(true);
@@ -185,10 +190,21 @@ export default function PokemonList() {
           >
             <Image
               src={
-                pokemonList[0]?.sprites.other["official-artwork"].front_default
+                !imageError &&
+                (pokemonList[0]?.sprites.other["official-artwork"]
+                  ?.front_default ||
+                  pokemonList[0]?.sprites?.front_default ||
+                  defaultImageUrl)
               }
               width={40}
               height={40}
+              onError={() => {
+                setImageError(true);
+              }}
+              onLoad={() => {
+                setImageError(false);
+              }}
+              alt={pokemonList[0]?.name}
             />
           </Button>
           <Button
@@ -202,9 +218,21 @@ export default function PokemonList() {
             }}
           >
             <Image
-              src={pokemonList[0]?.sprites.other["showdown"].front_default}
+              src={
+                !imageError &&
+                (pokemonList[0]?.sprites.other["showdown"]?.front_default ||
+                  pokemonList[0]?.sprites?.front_default ||
+                  defaultImageUrl)
+              }
               width={40}
               height={40}
+              onError={() => {
+                setImageError(true);
+              }}
+              onLoad={() => {
+                setImageError(false);
+              }}
+              alt={pokemonList[0]?.name}
             />
           </Button>
         </Grid>
@@ -250,7 +278,7 @@ export default function PokemonList() {
               justifyContent="center"
               py={2}
             >
-              <CardList pokemon={pokemon} animationMode={animationMode}/>
+              <CardList pokemon={pokemon} animationMode={animationMode} />
             </Grid>
           ))}
         {changeToCard && (
