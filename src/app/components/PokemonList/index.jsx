@@ -1,6 +1,12 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Button, Grid, IconButton } from "@mui/material";
+import {
+  Button,
+  Grid,
+  IconButton,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 
 import FilterListRoundedIcon from "@mui/icons-material/FilterListRounded";
 import TableRowsIcon from "@mui/icons-material/TableRows";
@@ -28,6 +34,9 @@ export default function PokemonList() {
   const [changeToCard, setChangeToCard] = useState(true);
   const [animationMode, setAnimationMode] = useState(false);
   const [imageError, setImageError] = useState(false);
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const defaultImageUrl =
     "https://th.bing.com/th/id/OIG4.T4sk0RpKKWpw2XSkbO_C?w=1024&h=1024&rs=1&pid=ImgDetMain";
@@ -170,7 +179,13 @@ export default function PokemonList() {
 
   return (
     <>
-      <Grid container py={2} pr={4} pl={4} justifyContent="space-between">
+      <Grid
+        container
+        py={2}
+        pr={4}
+        pl={4}
+        justifyContent={isMobile ? "center" : "space-between"}
+      >
         <Grid item xl={6} textAlign="left">
           <IconButton variant="contained" onClick={changeViewModeToCard}>
             <GridViewIcon />
@@ -236,7 +251,12 @@ export default function PokemonList() {
             />
           </Button>
         </Grid>
-        <Grid item xl={6} textAlign="right">
+        <Grid
+          item
+          xl={6}
+          textAlign="right"
+          style={isMobile ? { ml: 1, paddingTop: 5 } : {}}
+        >
           <IconButton variant="contained" onClick={toggleDrawer}>
             <FilterListRoundedIcon />
           </IconButton>
