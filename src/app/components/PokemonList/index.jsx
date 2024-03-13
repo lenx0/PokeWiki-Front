@@ -1,9 +1,13 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import {
+  Box,
   Button,
+  CardMedia,
+  Dialog,
   Grid,
   IconButton,
+  Typography,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
@@ -34,6 +38,7 @@ export default function PokemonList() {
   const [changeToCard, setChangeToCard] = useState(true);
   const [animationMode, setAnimationMode] = useState(false);
   const [imageError, setImageError] = useState(false);
+  const [selectedPokemon, setSelectedPokemon] = useState(null);
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -61,6 +66,14 @@ export default function PokemonList() {
 
   const animationOff = () => {
     setAnimationMode(false);
+  };
+
+  const openPokemonDetails = (pokemon) => {
+    setSelectedPokemon(pokemon);
+  };
+
+  const closePokemonDetails = () => {
+    setSelectedPokemon(null);
   };
 
   const applyFilters = async () => {
@@ -287,19 +300,68 @@ export default function PokemonList() {
         {!loading &&
           changeToCard &&
           pokemonList.map((pokemon, index) => (
-            <Grid
-              container
-              xs={12}
-              sm={6}
-              md={4}
-              lg={3}
-              xl={2}
-              key={index}
-              justifyContent="center"
-              py={2}
-            >
-              <CardList pokemon={pokemon} animationMode={animationMode} />
-            </Grid>
+            <>
+              <Grid
+                container
+                xs={12}
+                sm={6}
+                md={4}
+                lg={3}
+                xl={2}
+                key={index}
+                justifyContent="center"
+                py={2}
+              >
+                <Grid item onClick={() => openPokemonDetails(pokemon)}>
+                  <CardList
+                    pokemon={pokemon}
+                    animationMode={animationMode}
+                    onClick={() => openPokemonDetails(pokemon)}
+                  />
+                </Grid>
+              </Grid>
+              <Dialog
+                open={selectedPokemon === pokemon}
+                onClose={closePokemonDetails}
+                maxWidth="sm"
+                fullWidth
+              >
+                <Box style={{ padding: 20 }}>
+                  <CardMedia
+                    component="img"
+                    style={
+                      animationMode && !imageError
+                        ? {
+                            height: 100,
+                            width: 200,
+                            objectFit: "scale-down",
+                            objectPosition: "center",
+                          }
+                        : {}
+                    }
+                    image={
+                      !imageError &&
+                      pokemon?.sprites.other[
+                        animationMode ? "showdown" : "official-artwork"
+                      ].front_default
+                        ? pokemon.sprites.other[
+                            animationMode ? "showdown" : "official-artwork"
+                          ].front_default
+                        : defaultImageUrl
+                    }
+                    alt={pokemon?.name}
+                    onError={() => setImageError(true)}
+                    onLoad={() => setImageError(false)}
+                  />
+                  <Typography variant="h6" component="h2">
+                    {pokemon.name}
+                  </Typography>
+                  {/* Adicione outras informações do Pokémon aqui */}
+                  <Button onClick={closePokemonDetails}>Fechar</Button>{" "}
+                  {/* Botão para fechar */}
+                </Box>
+              </Dialog>
+            </>
           ))}
         {changeToCard && (
           <Grid item lg={12} xs={12}>

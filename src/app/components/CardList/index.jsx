@@ -5,7 +5,7 @@ import { capitalizeFirstLetter } from "@/services/utils/CapitalizeFirstLetter";
 const defaultImageUrl =
   "https://th.bing.com/th/id/OIG4.T4sk0RpKKWpw2XSkbO_C?w=1024&h=1024&rs=1&pid=ImgDetMain";
 
-const CardList = ({ pokemon, animationMode }) => {
+const CardList = ({ pokemon, animationMode, onClick }) => {
   const [imageError, setImageError] = useState(false);
 
   return (
@@ -14,7 +14,9 @@ const CardList = ({ pokemon, animationMode }) => {
         maxWidth: 240,
         border: "none",
         boxShadow: "2px 4px 8px 8px rgba(0,0,0,0.2)",
+        cursor:"pointer"
       }}
+      onClick={() => onClick()}
     >
       <CardMedia
         component="img"
@@ -30,14 +32,14 @@ const CardList = ({ pokemon, animationMode }) => {
         }
         image={
           !imageError &&
-          pokemon.sprites.other[animationMode ? "showdown" : "official-artwork"]
+          pokemon?.sprites.other[animationMode ? "showdown" : "official-artwork"]
             .front_default
             ? pokemon.sprites.other[
                 animationMode ? "showdown" : "official-artwork"
               ].front_default
             : defaultImageUrl
         }
-        alt={pokemon.name}
+        alt={pokemon?.name}
         onError={() => setImageError(true)}
         onLoad={() => setImageError(false)}
       />
@@ -49,16 +51,16 @@ const CardList = ({ pokemon, animationMode }) => {
             fontWeight="700"
             component="div"
           >
-            {capitalizeFirstLetter(pokemon.name)}
+            {capitalizeFirstLetter(pokemon?.name)}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            Número: {pokemon.order}
+            Número: {pokemon?.order}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            Altura: {pokemon.height}
+            Altura: {pokemon?.height}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            Peso: {pokemon.weight}
+            Peso: {pokemon?.weight}
           </Typography>
         </Box>
       </CardContent>

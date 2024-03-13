@@ -8,7 +8,7 @@ export default function PokemonCatalog() {
       <Grid
         container
         height={80}
-        backgroundColor="#272626eb"
+        backgroundColor="#f52d2deb"
         justifyContent="center"
         alignContent="center"
         width="100vw"
