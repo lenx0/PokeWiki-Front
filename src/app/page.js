@@ -1,8 +1,6 @@
-'use client'
-import PokemonList from "./pages/PokemonList/page";
+"use client";
+import PokemonCatalog from "./pages/PokemonCatalog/page";
 
 export default function Home() {
-  return (
-    <PokemonList />
-  );
+  return <PokemonCatalog />;
 }

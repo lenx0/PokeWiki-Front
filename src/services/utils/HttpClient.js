@@ -5,7 +5,7 @@ class HttpClient {
         filter,
         option: {},
         page: 1,
-        pageSize: 1000
+        pageSize: 1400
       });
       const urlWithParams = `${url}?${queryParams.toString()}`;
   
